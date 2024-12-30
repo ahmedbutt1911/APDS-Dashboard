@@ -133,12 +133,14 @@ const Sidebar = () => {
                         selected={selected}
                         setSelected={setSelected}
                         />
-                        <Typography
-                        variant="h6"
-                        color={colors.grey[300]}
-                        sx={{ m: "15px 0 5px 10px" }}
+                        {isCollapsed ? <hr style={{border: "1px solid gray", margin: '10px'}} /> : 
+                            <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 10px" }}
 
-                        >Data</Typography>
+                            >Data</Typography>
+                        }
                         <Item
                         title="Manage Team"
                         to="/team"
@@ -160,13 +162,14 @@ const Sidebar = () => {
                         selected={selected}
                         setSelected={setSelected}
                         />
-                        <Typography
-                        variant="h6"
-                        color={colors.grey[300]}
-                        sx={{ m: "15px 0 5px 10px" }}
+                        {isCollapsed ? <hr style={{border: "1px solid gray", margin: '10px'}} /> :
+                            <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 10px" }}
 
-                        >Pages</Typography>
-
+                            >Pages</Typography>
+                        }
 
                         <Item
                         title="Profile Form"
@@ -189,14 +192,14 @@ const Sidebar = () => {
                         selected={selected}
                         setSelected={setSelected}
                         />
+                        {isCollapsed ? <hr style={{border: "1px solid gray", margin: '10px'}} /> :
+                            <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 10px" }}
 
-                        <Typography
-                        variant="h6"
-                        color={colors.grey[300]}
-                        sx={{ m: "15px 0 5px 10px" }}
-
-                        >Charts</Typography>
-
+                            >Charts</Typography>
+                        }
 
                         <Item
                         title="Bar Chart"
