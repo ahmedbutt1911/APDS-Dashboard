@@ -33,3 +33,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.ActionsCol {
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  gap: 5px;
+}

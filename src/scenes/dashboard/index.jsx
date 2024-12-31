@@ -23,7 +23,7 @@ const Dashboard = () => {
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="APDS" subtitle="Welcome to your dashboard" />
+        <Header title="Dashboard" subtitle="Data Insights are provided below" />
 
         {/* <Box>
           <Button
