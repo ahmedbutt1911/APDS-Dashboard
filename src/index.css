@@ -1,17 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 
 html,
 body,
 #root,
 .app,
-.content{
-
+.content {
+  height: 100%;
   width: 100%;
-  font-family: 'Source Sans 3', sans-serif;
+  font-family: "Source Sans 3", sans-serif;
+}
+body {
+  height: 100vh;
 }
 
-.app{
+.app {
   display: flex;
   position: relative;
 }

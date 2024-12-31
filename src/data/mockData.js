@@ -266,54 +266,156 @@ export const mockDataInvoices = [
   },
 ];
 
-export const mockTransactions = [
+export const mockEmails = [
   {
-    txId: "01e4dsa",
-    user: "johndoe",
-    date: "2021-09-01",
-    cost: "43.95",
+    emailId: "098u76tT",
+    from: "yakuza@mailer.com",
+    date: "2025-09-26",
+    safe: true,
   },
   {
-    txId: "0315dsaa",
-    user: "jackdower",
-    date: "2022-04-01",
-    cost: "133.45",
+    emailId: "123a45bC",
+    from: "example1@mailer.com",
+    date: "2025-09-27",
+    safe: false,
   },
   {
-    txId: "01e4dsa",
-    user: "aberdohnny",
-    date: "2021-09-01",
-    cost: "43.95",
+    emailId: "234b56cD",
+    from: "example2@mailer.com",
+    date: "2025-09-28",
+    safe: true,
   },
   {
-    txId: "51034szv",
-    user: "goodmanave",
-    date: "2022-11-05",
-    cost: "200.95",
+    emailId: "345c67dE",
+    from: "example3@mailer.com",
+    date: "2025-09-29",
+    safe: false,
   },
   {
-    txId: "0a123sb",
-    user: "stevebower",
-    date: "2022-11-02",
-    cost: "13.55",
+    emailId: "456d78eF",
+    from: "example4@mailer.com",
+    date: "2025-09-30",
+    safe: true,
   },
   {
-    txId: "01e4dsa",
-    user: "aberdohnny",
-    date: "2021-09-01",
-    cost: "43.95",
+    emailId: "567e89fG",
+    from: "example5@mailer.com",
+    date: "2025-10-01",
+    safe: false,
   },
   {
-    txId: "120s51a",
-    user: "wootzifer",
-    date: "2019-04-15",
-    cost: "24.20",
+    emailId: "678f90gH",
+    from: "example6@mailer.com",
+    date: "2025-10-02",
+    safe: true,
   },
   {
-    txId: "0315dsaa",
-    user: "jackdower",
-    date: "2022-04-01",
-    cost: "133.45",
+    emailId: "789g01hI",
+    from: "example7@mailer.com",
+    date: "2025-10-03",
+    safe: false,
+  },
+  {
+    emailId: "890h12iJ",
+    from: "example8@mailer.com",
+    date: "2025-10-04",
+    safe: true,
+  },
+  {
+    emailId: "901i23jK",
+    from: "example9@mailer.com",
+    date: "2025-10-05",
+    safe: false,
+  },
+  {
+    emailId: "012j34kL",
+    from: "example10@mailer.com",
+    date: "2025-10-06",
+    safe: true,
+  },
+  {
+    emailId: "123k45lM",
+    from: "example11@mailer.com",
+    date: "2025-10-07",
+    safe: false,
+  },
+  {
+    emailId: "234l56mN",
+    from: "example12@mailer.com",
+    date: "2025-10-08",
+    safe: true,
+  },
+  {
+    emailId: "345m67nO",
+    from: "example13@mailer.com",
+    date: "2025-10-09",
+    safe: false,
+  },
+  {
+    emailId: "456n78oP",
+    from: "example14@mailer.com",
+    date: "2025-10-10",
+    safe: true,
+  },
+  {
+    emailId: "567o89pQ",
+    from: "example15@mailer.com",
+    date: "2025-10-11",
+    safe: false,
+  },
+  {
+    emailId: "678p90qR",
+    from: "example16@mailer.com",
+    date: "2025-10-12",
+    safe: true,
+  },
+  {
+    emailId: "789q01rS",
+    from: "example17@mailer.com",
+    date: "2025-10-13",
+    safe: false,
+  },
+  {
+    emailId: "890r12sT",
+    from: "example18@mailer.com",
+    date: "2025-10-14",
+    safe: true,
+  },
+  {
+    emailId: "901s23tU",
+    from: "example19@mailer.com",
+    date: "2025-10-15",
+    safe: false,
+  },
+  {
+    emailId: "012t34uV",
+    from: "example20@mailer.com",
+    date: "2025-10-16",
+    safe: true,
+  },
+  {
+    emailId: "123u45vW",
+    from: "example21@mailer.com",
+    date: "2025-10-17",
+    safe: false,
+  },
+  {
+    emailId: "234v56wX",
+    from: "example22@mailer.com",
+    date: "2025-10-18",
+    safe: true,
+  },
+  {
+    emailId: "345w67xY",
+    from: "example23@mailer.com",
+    date: "2025-10-19",
+    safe: false,
+  },
+  {
+    emailId: "456x78yZ",
+    from: "example24@mailer.com",
+    date: "2025-10-20",
+    safe: true,
   },
 ];
 
@@ -429,167 +531,112 @@ export const mockPieData = [
     color: "hsl(344, 70%, 50%)",
   },
 ];
-
 export const mockLineData = [
   {
-    id: "japan",
-    color: tokens("dark").greenAccent[500],
-    data: [
-      {
-        x: "plane",
-        y: 101,
-      },
-      {
-        x: "helicopter",
-        y: 75,
-      },
-      {
-        x: "boat",
-        y: 36,
-      },
-      {
-        x: "train",
-        y: 216,
-      },
-      {
-        x: "subway",
-        y: 35,
-      },
-      {
-        x: "bus",
-        y: 236,
-      },
-      {
-        x: "car",
-        y: 88,
-      },
-      {
-        x: "moto",
-        y: 232,
-      },
-      {
-        x: "bicycle",
-        y: 281,
-      },
-      {
-        x: "horse",
-        y: 1,
-      },
-      {
-        x: "skateboard",
-        y: 35,
-      },
-      {
-        x: "others",
-        y: 14,
-      },
-    ],
-  },
-  {
-    id: "france",
+    id: "Spam",
     color: tokens("dark").blueAccent[300],
     data: [
       {
-        x: "plane",
-        y: 212,
+        x: "2025-09-26",
+        y: 10, // phished
       },
       {
-        x: "helicopter",
-        y: 190,
+        x: "2025-09-27",
+        y: 5, // phished
       },
       {
-        x: "boat",
-        y: 270,
+        x: "2025-09-28",
+        y: 8, // phished
       },
       {
-        x: "train",
-        y: 9,
+        x: "2025-09-29",
+        y: 12, // phished
       },
       {
-        x: "subway",
-        y: 75,
+        x: "2025-09-30",
+        y: 7, // phished
       },
       {
-        x: "bus",
-        y: 175,
+        x: "2025-10-01",
+        y: 15, // phished
       },
       {
-        x: "car",
-        y: 33,
+        x: "2025-10-02",
+        y: 9, // phished
       },
       {
-        x: "moto",
-        y: 189,
+        x: "2025-10-03",
+        y: 14, // phished
       },
       {
-        x: "bicycle",
-        y: 97,
+        x: "2025-10-04",
+        y: 6, // phished
       },
       {
-        x: "horse",
-        y: 87,
+        x: "2025-10-05",
+        y: 11, // phished
       },
       {
-        x: "skateboard",
-        y: 299,
+        x: "2025-10-06",
+        y: 13, // phished
       },
       {
-        x: "others",
-        y: 251,
+        x: "2025-10-07",
+        y: 4, // phished
       },
     ],
   },
   {
-    id: "us",
-    color: tokens("dark").redAccent[200],
+    id: "Valid",
+    color: tokens("dark").greenAccent[500],
     data: [
       {
-        x: "plane",
-        y: 191,
+        x: "2025-09-26",
+        y: 15, // phished
       },
       {
-        x: "helicopter",
-        y: 136,
+        x: "2025-09-27",
+        y: 12, // phished
       },
       {
-        x: "boat",
-        y: 91,
+        x: "2025-09-28",
+        y: 18, // phished
       },
       {
-        x: "train",
-        y: 190,
+        x: "2025-09-29",
+        y: 20, // phished
       },
       {
-        x: "subway",
-        y: 211,
+        x: "2025-09-30",
+        y: 14, // phished
       },
       {
-        x: "bus",
-        y: 152,
+        x: "2025-10-01",
+        y: 25, // phished
       },
       {
-        x: "car",
-        y: 189,
+        x: "2025-10-02",
+        y: 19, // phished
       },
       {
-        x: "moto",
-        y: 152,
+        x: "2025-10-03",
+        y: 22, // phished
       },
       {
-        x: "bicycle",
-        y: 8,
+        x: "2025-10-04",
+        y: 16, // phished
       },
       {
-        x: "horse",
-        y: 197,
+        x: "2025-10-05",
+        y: 23, // phished
       },
       {
-        x: "skateboard",
-        y: 107,
+        x: "2025-10-06",
+        y: 21, // phished
       },
       {
-        x: "others",
-        y: 170,
+        x: "2025-10-07",
+        y: 10, // phished
       },
     ],
   },
