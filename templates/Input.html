@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container">
+        <form id="uploadForm" method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="Phishing Content" class="form-label">
+                    Enter your Email Content
+                </label>
+                <input type="text" id="Content" 
+                       class="form-control" name="email_content">
+                <div id="emailHelp" class="form-text">
+                    We'll never share your data with anyone else.
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Check Email</button>
+        </form>
+        {% if result %}
+            <div class="result">
+                The email is classified as: 
+                <strong class="{{ 'the Email is' }}">{{ result }}</strong>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
