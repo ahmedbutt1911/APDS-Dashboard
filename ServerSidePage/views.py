@@ -40,4 +40,5 @@ def prediction(request):
             print(processed_content)
             prediction_result = loaded_model.predict(processed_content)
             result = "Spam Email" if prediction_result[0] > 0.5 else "Legitimate Email"
-    return render(request,"Input.html", {'result':result})
+            classification = "spam" if prediction_result[0] > 0.5 else "legitimate"
+    return render(request,"Input.html", {'result':result, 'class':classification})
