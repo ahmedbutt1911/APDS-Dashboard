@@ -16,8 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from ServerSidePage import viewset
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+router = DefaultRouter()
+router.register("Userapi", viewset.UserViewSet, basename='Userapi')
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("ServerSidePage.urls")),
+    path('',include(router.urls)),
+    path('gettoken/',TokenObtainPairView.as_view(), name='gettoken'),
+    path('refreshtoken/',TokenRefreshView.as_view(), name='refreshtoken'),
+    path('verifytoken/',TokenVerifyView.as_view(), name='verrifytoken')
+    # path("accounts/",include("allauth.urls")),
+    # path("", include("ServerSidePage.urls")),
+    # path('api/',include('ServerSidePage.urls'))
 ]
