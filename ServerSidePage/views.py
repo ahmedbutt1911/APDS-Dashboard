@@ -32,6 +32,7 @@ def preprocessing(Email_content):
     return a
 def prediction(request):
     result = None
+    classification = None
     if request.method=="POST":
         mail_content = request.POST.get('email_content')
         print(mail_content)
