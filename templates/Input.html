@@ -15,8 +15,12 @@
         {% if result %}
             <div class="result">
                 The email is classified as: 
-                <strong class="{{ class }}">{{ result }}</strong>
+                <strong class="results">{{ result }}</strong>
             </div>
         {% endif %}
+        {% if user.is_authenticated %}
+    <p>you are signed in {{user.email}}</P>
+    <a href="logout">logout</a>
+    {% endif %}
     </div>
 {% endblock %}
