@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .venv/*
-model-eval/.venv/*
+server/model-eval/.venv/*
 # Python Stuff
 __pycache__
 .venvclient_secret_810335553768-or0v7kb5f3gjqqbc0952m80m0favmg0h.apps.googleusercontent.com.json
