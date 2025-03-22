@@ -3,7 +3,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useAuthStore } from '../../stores/AuthStore';
 import { useNavigate } from "react-router-dom";
-import config from "../../config";
+import { login } from '../../services/authService'
 
 function Login() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -12,7 +12,7 @@ function Login() {
   const [loginToken, setLoginToken] = useState('');
   const navigate = useNavigate();
 
-  const login = useGoogleLogin({
+  const handleGoogleLogin = useGoogleLogin({
     scope: "https://www.googleapis.com/auth/gmail.readonly",
     onSuccess: (codeResponse) => {
       setLoginToken(codeResponse);
@@ -33,10 +33,7 @@ function Login() {
           }
         )
         .then((res) => {
-          axios.post(
-            `${config.backendUrl}/auth/google`,
-            { ...res.data, access_token: loginToken?.access_token }
-          ).then((res1) => {
+          login({ ...res.data, access_token: loginToken?.access_token }).then((res1) => {
             setUser({ ...res.data, access_token: res1.data?.access_token, refresh_token: res1.data?.refresh_token });
             setAuthenticated(true);
             console.log({ ...res.data, access_token: res1.data?.access_token, refresh_token: res1.data?.refresh_token });
@@ -55,7 +52,7 @@ function Login() {
       <h2>React Google Login</h2>
       <br />
       <br />
-      <button onClick={login}>Sign in with Google 🚀 </button>
+      <button onClick={handleGoogleLogin}>Sign in with Google 🚀 </button>
     </div>
   );
 }

@@ -38,7 +38,9 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
+import { useAuthStore } from "../../stores/AuthStore";
 const Sidebar = () => {
+  const { user } = useAuthStore();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setCollapsed] = useState(false);
@@ -104,7 +106,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={userImage}
+                  src={user?.picture ? user.picture : userImage}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -115,7 +117,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Edward Elric
+                  {user?.name}
                 </Typography>
                 {/* <Typography variant="h5" color={colors.greenAccent[500]}>
                   APDS User
