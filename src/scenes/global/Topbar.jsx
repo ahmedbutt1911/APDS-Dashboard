@@ -21,13 +21,7 @@ const Topbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    authServiceLogout().then(
-      () => {
-        googleLogout();
-        logout();
-        navigate("/auth/login");
-      }
-    ).catch(e => console.log(e));
+    authServiceLogout(navigate);
   };
 
   return (

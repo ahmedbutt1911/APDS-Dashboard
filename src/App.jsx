@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from "./scenes/dashboard";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Reports from "./scenes/Reports";
 import Form from "./scenes/form";
 import FAQ from "./scenes/faq";
@@ -9,10 +10,22 @@ import EmailAnalysis from "./scenes/emailAnalysis";
 import AppWrapper from "./components/AppWrapper";
 import Login from "./scenes/Login";
 import { useAuthStore } from "./stores/AuthStore"; // Import AuthStore
+import { refreshToken } from "./services/authService"; // Import refreshToken
 
 function App() {
   const [colorMode, theme] = useMode();
   const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const interval = setInterval(() => {
+        refreshToken(navigate).catch(err => console.error("Failed to refresh token:", err));
+      }, 15 * 60 * 1000); // Refresh token every 15 minutes
+
+      return () => clearInterval(interval); // Clear interval on component unmount
+    }
+  }, [isAuthenticated, navigate]);
 
   const PrivateRoute = ({ element }) => {
     return isAuthenticated ? element : <Navigate to="/auth/login" />;
