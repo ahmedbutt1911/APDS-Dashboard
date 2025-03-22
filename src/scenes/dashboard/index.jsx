@@ -14,10 +14,14 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import ReportIcon from "@mui/icons-material/Report";
+import { useAuthStore } from "../../stores/AuthStore";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { user, isAuthenticated } = useAuthStore();
+  console.log(isAuthenticated, user);
+
 
   return (
     <Box m="20px">

@@ -1,102 +1,61 @@
-import { useState, useEffect, useRef } from "react";
-import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { useState, useEffect } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { useAuthStore } from '../../stores/AuthStore';
+import { useNavigate } from "react-router-dom";
+import config from "../../config";
 
 function Login() {
-  const userRef = useRef(null);
-  const profileRef = useRef(null);
-  const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
-
-  const [messageId, setMessageID] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
+  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
+  const { user } = useAuthStore();
+  const [loginToken, setLoginToken] = useState('');
+  const navigate = useNavigate();
 
   const login = useGoogleLogin({
     scope: "https://www.googleapis.com/auth/gmail.readonly",
     onSuccess: (codeResponse) => {
-      setUser(codeResponse);
-      userRef.current = codeResponse;
+      setLoginToken(codeResponse);
     },
     onError: (error) => console.log("Login Failed:", error),
   });
 
-  const getMail = () => {
-    if (userRef != null && profileRef != null) {
-      axios
-        .get(
-          `https://gmail.googleapis.com/gmail/v1/users/${profileRef.current.id}/messages/${messageId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userRef.current.access_token}`,
-              Accept: "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
-
   useEffect(() => {
-    if (userRef.current && userRef.current.access_token) {
+    if (loginToken?.access_token) {
       axios
         .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userRef.current.access_token}`,
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${loginToken?.access_token}`,
           {
             headers: {
-              Authorization: `Bearer ${userRef.current.access_token}`,
+              Authorization: `Bearer ${loginToken.access_token}`,
               Accept: "application/json",
             },
           }
         )
         .then((res) => {
-          console.log(res.data.id);
-          setProfile(res.data);
-          profileRef.current = res.data;
+          axios.post(
+            `${config.backendUrl}/auth/google`,
+            { ...res.data, access_token: loginToken?.access_token }
+          ).then((res1) => {
+            setUser({ ...res.data, access_token: res1.data?.access_token, refresh_token: res1.data?.refresh_token });
+            setAuthenticated(true);
+            console.log({ ...res.data, access_token: res1.data?.access_token, refresh_token: res1.data?.refresh_token });
+            console.log(user);
+
+            navigate("/"); // Redirect to home page after setting user
+          }).catch((err) => console.error(err));
         })
         .catch((err) => console.error(err));
     }
-  }, [user]);
+  }, [loginToken, setUser, navigate]);
 
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
-    profileRef.current = null;
-  };
-
-  const logData = () => {
-    console.log(userRef.current, profileRef.current);
-  };
 
   return (
     <div>
       <h2>React Google Login</h2>
       <br />
       <br />
-      {profile ? (
-        <div>
-          <img src={profile.picture} alt="user image" />
-          <h3>User Logged in</h3>
-          <p>Name: {profile.name}</p>
-          <p>Email Address: {profile.email}</p>
-          <br />
-          <br />
-          <button onClick={logOut}>Log out</button>
-          <button onClick={logData}>Log Data</button>
-
-          <input
-            type="text"
-            value={messageId}
-            onChange={(e) => setMessageID(e.target.value)}
-          />
-          <button onClick={() => getMail()}>Get Mail</button>
-        </div>
-      ) : (
-        <button onClick={login}>Sign in with Google 🚀 </button>
-      )}
+      <button onClick={login}>Sign in with Google 🚀 </button>
     </div>
   );
 }
