@@ -1,23 +1,13 @@
-import { useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import Topbar from "./scenes/global/Topbar";
 import Dashboard from "./scenes/dashboard";
-
 import { Routes, Route } from "react-router-dom";
-import Sidebar from "./scenes/global/Sidebar";
-import Team from "./scenes/team";
-import Invoices from "./scenes/invoices";
 import Reports from "./scenes/Reports";
-import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
-import Calendar from "./scenes/calendar";
-import Bar from "./scenes/bar";
-import Line from "./scenes/line";
-import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
 import EmailAnalysis from "./scenes/emailAnalysis";
-import Geography from "./scenes/geography";
+import AppWrapper from "./components/AppWrapper";
+import Login from "./scenes/Login";
 
 function App() {
   const [colorMode, theme] = useMode();
@@ -26,18 +16,18 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="app">
-          <Sidebar />
-          <main className="content">
-            <Topbar />
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/email-analysis" element={<EmailAnalysis />} />
-              <Route path="/reports" element={<Reports />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/form" element={<Form />} />
+        <Routes>
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/" element={<AppWrapper child={<Dashboard />} />} />
+          <Route
+            path="/email-analysis"
+            element={<AppWrapper child={<EmailAnalysis />} />}
+          />
+          <Route path="/reports" element={<AppWrapper child={<Reports />} />} />
+          <Route path="/faq" element={<AppWrapper child={<FAQ />} />} />
+          <Route path="/form" element={<AppWrapper child={<Form />} />} />
 
-              {/* <Route path="/team" element={<Team />} />
+          {/* <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/calendar" element={<Calendar />} />
@@ -45,9 +35,7 @@ function App() {
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
               <Route path="/geography" element={<Geography />} /> */}
-            </Routes>
-          </main>
-        </div>
+        </Routes>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
