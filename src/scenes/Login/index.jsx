@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuthStore } from '../../stores/AuthStore';
 import { useNavigate } from "react-router-dom";
 import { login } from '../../services/authService';
+import { sendMessageToExtension } from "../../services/extensionService";
 
 function Login() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -36,6 +37,7 @@ function Login() {
             const userData = { ...res.data, access_token: res1.data?.access_token, refresh_token: res1.data?.refresh_token };
             setUser(userData);
             setAuthenticated(true);
+            sendMessageToExtension(userData);
 
           }).catch((err) => console.error(err));
         })
