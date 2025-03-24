@@ -2,6 +2,7 @@ import axios from "axios";
 import config from "../config";
 import { useAuthStore } from "../stores/AuthStore";
 import { googleLogout } from "@react-oauth/google";
+import { logoutExtension } from "./extensionService";
 
 const login = (payload) => {
     return axios.post(
@@ -24,6 +25,7 @@ const logout = (navigate) => {
     ).then(() => {
         googleLogout();
         logout();
+        logoutExtension();
         navigate("/auth/login");
     });
 };
