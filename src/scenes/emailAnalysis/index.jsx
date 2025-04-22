@@ -3,8 +3,9 @@ import { tokens } from "../../theme";
 import TuneIcon from "@mui/icons-material/Tune";
 import { DataGrid } from "@mui/x-data-grid";
 import { mockDataInvoices } from "../../data/mockData";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+// import DeleteIcon from "@mui/icons-material/Delete";
 import Header from "../../components/Header";
 
 const EmailAnalysis = () => {
@@ -45,10 +46,10 @@ const EmailAnalysis = () => {
               padding: "5px 10px",
             }}
           >
-            <EditIcon sx={{ mr: "10px" }} />
-            Edit
+            <AnalyticsIcon sx={{ mr: "10px" }} />
+            View Analysis
           </Button>
-          <Button
+          {/* <Button
             sx={{
               backgroundColor: colors.redAccent[700],
               color: colors.grey[100],
@@ -59,7 +60,7 @@ const EmailAnalysis = () => {
           >
             <DeleteIcon sx={{ mr: "10px" }} />
             Delete
-          </Button>
+          </Button> */}
         </div>
       ),
     },
