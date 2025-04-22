@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { useAuthStore } from '../../stores/AuthStore';
+import { useAuthStore } from "../../stores/AuthStore";
 import { useNavigate } from "react-router-dom";
-import { login } from '../../services/authService';
+import { login } from "../../services/authService";
 import { sendMessageToExtension } from "../../services/extensionService";
+import { useTheme, Button } from "@mui/material";
+import { tokens } from "../../theme";
+import Header from "../../components/Header";
 
 function Login() {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const setUser = useAuthStore((state) => state.setUser);
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
-  const [loginToken, setLoginToken] = useState('');
+  const [loginToken, setLoginToken] = useState("");
   const navigate = useNavigate();
 
   const handleGoogleLogin = useGoogleLogin({
@@ -33,13 +38,19 @@ function Login() {
           }
         )
         .then((res) => {
-          login({ ...res.data, access_token: loginToken?.access_token }).then((res1) => {
-            const userData = { ...res.data, access_token: res1.data?.access_token, refresh_token: res1.data?.refresh_token };
-            setUser(userData);
-            setAuthenticated(true);
-            sendMessageToExtension(userData);
-
-          }).catch((err) => console.error(err));
+          login({ ...res.data, access_token: loginToken?.access_token })
+            .then((res1) => {
+              const userData = {
+                ...res.data,
+                access_token: res1.data?.access_token,
+                refresh_token: res1.data?.refresh_token,
+              };
+              console.log(userData);
+              setUser(userData);
+              setAuthenticated(true);
+              sendMessageToExtension(userData);
+            })
+            .catch((err) => console.error(err));
         })
         .catch((err) => console.error(err));
     }
@@ -47,10 +58,24 @@ function Login() {
 
   return (
     <div>
-      <h2>React Google Login</h2>
-      <br />
-      <br />
-      <button onClick={handleGoogleLogin}>Sign in with Google 🚀 </button>
+      <div className="loginBox">
+        <div>
+          <Header title="APDS" subtitle="Advanced Phishing Email Detection" />
+          <hr />
+          <Button
+            onClick={handleGoogleLogin}
+            sx={{
+              backgroundColor: colors.greenAccent[600],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+          >
+            🚀 Sign in with Google
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
