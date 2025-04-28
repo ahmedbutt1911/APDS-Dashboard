@@ -19,6 +19,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import SummarizeIcon from "@mui/icons-material/Summarize";
+import { useAuthStore } from "../../stores/AuthStore";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -38,7 +39,6 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-import { useAuthStore } from "../../stores/AuthStore";
 const Sidebar = () => {
   const { user } = useAuthStore();
   const theme = useTheme();
@@ -144,13 +144,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Item
+            {/* <Item
               title="Generate Reports"
               to="/reports"
               icon={<SummarizeIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Item
               title="FAQ Page"

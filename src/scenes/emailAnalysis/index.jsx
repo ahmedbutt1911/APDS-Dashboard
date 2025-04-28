@@ -7,14 +7,46 @@ import { mockDataInvoices } from "../../data/mockData";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import Header from "../../components/Header";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import config from "../../config";
+import { useAuthStore } from "../../stores/AuthStore";
 
 const EmailAnalysis = () => {
+  const { user } = useAuthStore();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [emailData, setEmailData] = useState([]);
+
+  useEffect(() => {
+    const fetchEmailData = async () => {
+      try {
+        const response = await axios.get(`${config.backendUrl}/emails`, {
+          headers: {
+            Authorization: `Bearer ${user?.access_token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        setEmailData(response.data);
+      } catch (error) {
+        console.error("Error fetching email data:", error);
+      }
+    };
+
+    fetchEmailData();
+  }, []);
+
+  useEffect(() => {
+    console.log(emailData);
+  }, [emailData]);
 
   const columns = [
-    { field: "id", headerName: "ID" },
-
+    {
+      field: "id",
+      headerName: "ID",
+    },
     {
       field: "title",
       headerName: "Title",
@@ -22,45 +54,41 @@ const EmailAnalysis = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "date",
-      headerName: "Date",
-      flex: 1,
+      field: "body",
+      headerName: "Body",
+      flex: 3,
     },
     {
-      field: "status",
-      headerName: "Status",
-      flex: 1,
+      field: "category_id",
+      headerName: "Category",
+      renderCell: (params) => {
+        const categoryId = params.row.category_id;
+        return categoryId === 2 ? "Legitimate" : "Spam";
+      },
     },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 1,
+      flex: 2,
+      sortable: false,
+      filterable: false,
       renderCell: (params) => (
         <div className="ActionsCol">
           <Button
+            component={Link}
+            to={`/reports/${params.row.id}`}
             sx={{
               backgroundColor: colors.greenAccent[700],
               color: colors.grey[100],
               fontSize: "12px",
               fontWeight: "normal",
               padding: "5px 10px",
+              textTransform: "none",
             }}
           >
             <AnalyticsIcon sx={{ mr: "10px" }} />
             View Analysis
           </Button>
-          {/* <Button
-            sx={{
-              backgroundColor: colors.redAccent[700],
-              color: colors.grey[100],
-              fontSize: "12px",
-              fontWeight: "normal",
-              padding: "5px 10px",
-            }}
-          >
-            <DeleteIcon sx={{ mr: "10px" }} />
-            Delete
-          </Button> */}
         </div>
       ),
     },
@@ -115,8 +143,8 @@ const EmailAnalysis = () => {
         }}
       >
         <DataGrid
-          checkboxSelection
-          rows={mockDataInvoices}
+          // checkboxSelection
+          rows={emailData}
           columns={columns}
           // components={{ Toolbar: GridToolbar }}
         />

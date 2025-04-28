@@ -20,7 +20,9 @@ function App() {
   useEffect(() => {
     if (isAuthenticated) {
       const interval = setInterval(() => {
-        refreshToken(navigate).catch(err => console.error("Failed to refresh token:", err));
+        refreshToken(navigate).catch((err) =>
+          console.error("Failed to refresh token:", err)
+        );
       }, 15 * 60 * 1000); // Refresh token every 15 minutes
 
       return () => clearInterval(interval); // Clear interval on component unmount
@@ -40,12 +42,38 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/auth/login" element={<PublicRoute element={<Login />} />} />
-          <Route path="/" element={<PrivateRoute element={<AppWrapper child={<Dashboard />} />} />} />
-          <Route path="/email-analysis" element={<PrivateRoute element={<AppWrapper child={<EmailAnalysis />} />} />} />
-          <Route path="/reports" element={<PrivateRoute element={<AppWrapper child={<Reports />} />} />} />
-          <Route path="/faq" element={<PrivateRoute element={<AppWrapper child={<FAQ />} />} />} />
-          <Route path="/form" element={<PrivateRoute element={<AppWrapper child={<Form />} />} />} />
+          <Route
+            path="/auth/login"
+            element={<PublicRoute element={<Login />} />}
+          />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute element={<AppWrapper child={<Dashboard />} />} />
+            }
+          />
+          <Route
+            path="/email-analysis"
+            element={
+              <PrivateRoute
+                element={<AppWrapper child={<EmailAnalysis />} />}
+              />
+            }
+          />
+          <Route
+            path="/reports/:id"
+            element={
+              <PrivateRoute element={<AppWrapper child={<Reports />} />} />
+            }
+          />
+          <Route
+            path="/faq"
+            element={<PrivateRoute element={<AppWrapper child={<FAQ />} />} />}
+          />
+          <Route
+            path="/form"
+            element={<PrivateRoute element={<AppWrapper child={<Form />} />} />}
+          />
           <Route path="*" element={<Navigate to="/" />} /> {/* Default route */}
           {/* <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />

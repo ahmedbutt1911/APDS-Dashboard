@@ -5,15 +5,53 @@ import Header from "../../components/Header";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import IconButton from "@mui/material/IconButton";
 import LineChart from "../../components/LineChart";
-
+import config from "../../config";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useAuthStore } from "../../stores/AuthStore";
 
 const Reports = () => {
+  const { user } = useAuthStore();
+  const { id } = useParams();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [reportData, setReportData] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchReportData = async () => {
+      try {
+        const response = await axios.get(
+          `${config.backendUrl}/reports/?email_id=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.access_token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.data.length == 0) navigate("/email-analysis");
+        setReportData(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching email data:", error);
+        navigate("/email-analysis");
+      }
+    };
+
+    fetchReportData();
+  }, [id]);
+
+  useEffect(() => {
+    console.log(reportData);
+    reportData?.attributes?.map((i) => {
+      console.log(i);
+    });
+  }, [reportData]);
 
   return (
     <Box m="20px">
@@ -25,7 +63,10 @@ const Reports = () => {
         <Box>
           <Button
             sx={{
-              backgroundColor: colors.greenAccent[600],
+              backgroundColor:
+                reportData?.category_name === "Spam"
+                  ? colors.redAccent[600]
+                  : colors.greenAccent[600],
               color: colors.grey[100],
               fontSize: "14px",
               fontWeight: "bold",
@@ -33,7 +74,7 @@ const Reports = () => {
             }}
           >
             <Shield sx={{ mr: "10px" }} />
-            Valid
+            {reportData?.category_name}
           </Button>
         </Box>
       </Box>
@@ -72,17 +113,6 @@ const Reports = () => {
           backgroundColor={colors.primary[400]}
         >
           <Box p="30px">
-            {/* <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
-              Email Body
-            </Typography> */}
-            {/* <Typography
-              variant="h3"
-              fontWeight="bold"
-              color={colors.greenAccent[500]}
-            >
-              Email Body
-            </Typography> */}
-
             <Typography
               variant="h3"
               fontWeight="bold"
@@ -91,13 +121,12 @@ const Reports = () => {
               Analysis
             </Typography>
             <ul>
-              <li>Point 1</li>
-              <li>Point 2</li>
-              <li>Point 3</li>
-              <li>Point 4</li>
+              {reportData?.attributes?.map((item, i) => (
+                <li key={i}>{item?.name}</li>
+              ))}
             </ul>
             <Typography variant="h5" fontWeight="bold">
-              Confidence Score: 77%
+              Confidence Score: {reportData?.confidence_score * 100}%
             </Typography>
           </Box>
         </Box>
@@ -118,66 +147,10 @@ const Reports = () => {
           </AccordionSummary>
           <AccordionDetails>
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est rem
-              fuga non doloremque quod, iusto distinctio, eaque exercitationem
-              nisi maxime quis odio, optio voluptates dolor repudiandae cum.
-              Dignissimos, ratione dolores. Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Est rem fuga non doloremque quod,
-              iusto distinctio, eaque exercitationem nisi maxime quis odio,
-              optio voluptates dolor repudiandae cum. Dignissimos, ratione
-              dolores. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Est rem fuga non doloremque quod, iusto distinctio, eaque
-              exercitationem nisi maxime quis odio, optio voluptates dolor
-              repudiandae cum. Dignissimos, ratione dolores. Lorem, ipsum dolor
-              sit amet consectetur adipisicing elit. Est rem fuga non doloremque
-              quod, iusto distinctio, eaque exercitationem nisi maxime quis
-              odio, optio voluptates dolor repudiandae cum. Dignissimos, ratione
-              dolores. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Est rem fuga non doloremque quod, iusto distinctio, eaque
-              exercitationem nisi maxime quis odio, optio voluptates dolor
-              repudiandae cum. Dignissimos, ratione dolores. Lorem, ipsum dolor
-              sit amet consectetur adipisicing elit. Est rem fuga non doloremque
-              quod, iusto distinctio, eaque exercitationem nisi maxime quis
-              odio, optio voluptates dolor repudiandae cum. Dignissimos, ratione
-              dolores. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Est rem fuga non doloremque quod, iusto distinctio, eaque
-              exercitationem nisi maxime quis odio, optio voluptates dolor
-              repudiandae cum. Dignissimos, ratione dolores.
-            </p>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est rem
-              fuga non doloremque quod, iusto distinctio, eaque exercitationem
-              nisi maxime quis odio, optio voluptates dolor repudiandae cum.
-              Dignissimos, ratione dolores. Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Est rem fuga non doloremque quod,
-              iusto distinctio, eaque exercitationem nisi maxime quis odio,
-              optio voluptates dolor repudiandae cum. elit. Est rem fuga non
-              doloremque quod, iusto distinctio, eaque exercitationem nisi
-              maxime quis odio, optio voluptates dolor repudiandae cum.
-              Dignissimos, ratione dolores. Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Est rem fuga non doloremque quod,
-              iusto distinctio, eaque exercitationem nisi repudiandae cum.
-              Dignissimos, ratione dolores.
-            </p>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est rem
-              fuga non doloremque quod, iusto distinctio, eaque exercitationem
-              nisi maxime quis odio, optio voluptates dolor repudiandae cum.
-              Dignissimos, ratione dolores. Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Est rem fuga non doloremque quod,
-              iusto distinctio, eaque exercitationem nisi repudiandae cum.
-              Dignissimos, ratione dolores. Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Est rem fuga non doloremque quod,
-              iusto distinctio, eaque exercitationem nisi maxime quis odio,
-              optio voluptates dolor repudiandae cum. Dignissimos, ratione
-              dolores. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Est rem fuga non doloremque quod, iusto distinctio, eaque
-              exercitationem nisi maxime quis odio, optio voluptates dolor
-              repudiandae cum. Dignissimos, ratione dolores. Lorem, ipsum dolor
-              sit amet consectetur adipisicing elit. Est rem fuga non doloremque
-              quod, iusto distinctio, eaque exercitationem nisi maxime quis
-              odio, optio voluptates dolor repudiandae cum. Dignissimos, ratione
-              dolores.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Dignissimos minima minus cumque beatae recusandae architecto
+              molestias dolor expedita, itaque voluptate praesentium aperiam
+              atque adipisci rem neque sapiente soluta assumenda culpa?
             </p>
           </AccordionDetails>
         </Accordion>
