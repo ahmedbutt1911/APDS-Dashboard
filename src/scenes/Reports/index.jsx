@@ -13,6 +13,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import HtmlPreview from "./HtmlPreview";
 import { useAuthStore } from "../../stores/AuthStore";
 
 const Reports = () => {
@@ -37,6 +38,7 @@ const Reports = () => {
         );
         if (response.data.length == 0) navigate("/email-analysis");
         setReportData(response.data[0]);
+        console.log(response.data[0]);
       } catch (error) {
         console.error("Error fetching email data:", error);
         navigate("/email-analysis");
@@ -56,15 +58,12 @@ const Reports = () => {
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header
-          title="Report for"
-          subtitle="Title: You have WON grand prize!!!"
-        />
+        <Header title="Report for" subtitle={reportData?.email?.title} />
         <Box>
           <Button
             sx={{
               backgroundColor:
-                reportData?.category_name === "Spam"
+                reportData?.email?.category_name === "Spam"
                   ? colors.redAccent[600]
                   : colors.greenAccent[600],
               color: colors.grey[100],
@@ -74,7 +73,7 @@ const Reports = () => {
             }}
           >
             <Shield sx={{ mr: "10px" }} />
-            {reportData?.category_name}
+            {reportData?.email?.category_name}
           </Button>
         </Box>
       </Box>
@@ -146,12 +145,7 @@ const Reports = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Dignissimos minima minus cumque beatae recusandae architecto
-              molestias dolor expedita, itaque voluptate praesentium aperiam
-              atque adipisci rem neque sapiente soluta assumenda culpa?
-            </p>
+            <HtmlPreview html={reportData?.message_body} />
           </AccordionDetails>
         </Accordion>
       </Box>

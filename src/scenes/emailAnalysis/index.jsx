@@ -38,10 +38,6 @@ const EmailAnalysis = () => {
     fetchEmailData();
   }, []);
 
-  useEffect(() => {
-    console.log(emailData);
-  }, [emailData]);
-
   const columns = [
     {
       field: "id",

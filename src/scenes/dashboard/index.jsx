@@ -59,8 +59,6 @@ const Dashboard = () => {
           <StatBox
             title="12,361"
             subtitle="Total Emails Detected"
-            progress="0.75"
-            increase="+0%"
             icon={
               <EmailIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
