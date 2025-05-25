@@ -193,21 +193,42 @@ const Dashboard = () => {
                 alignItems="center"
                 borderBottom={`4px solid ${colors.primary[500]}`}
                 p="15px"
+                gap="20px"
               >
-                <Box>
+                {/* Title & Body Section */}
+                <Box flex="3" minWidth="200px">
                   <Typography
                     color={colors.greenAccent[500]}
                     variant="h5"
                     fontWeight="600"
+                    noWrap
                   >
                     {email.title}
                   </Typography>
-                  <Typography color={colors.grey[100]}>{email.body}</Typography>
+                  <Typography
+                    color={colors.grey[100]}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                  >
+                    {email.body}
+                  </Typography>
                 </Box>
-                <Box color={colors.grey[100]} width="fit-content">
+
+                {/* Date Section */}
+                <Box
+                  flex="1"
+                  minWidth="100px"
+                  color={colors.grey[100]}
+                  textAlign="right"
+                >
                   {email.date}
                 </Box>
+
+                {/* Status Badge Section */}
                 <Box
+                  flex="0 0 auto"
+                  width="100px"
+                  textAlign="center"
                   backgroundColor={
                     email.status === "Legitimate"
                       ? colors.greenAccent[500]
@@ -215,6 +236,7 @@ const Dashboard = () => {
                   }
                   p="5px 10px"
                   borderRadius="4px"
+                  whiteSpace="nowrap"
                 >
                   {email.status}
                 </Box>
