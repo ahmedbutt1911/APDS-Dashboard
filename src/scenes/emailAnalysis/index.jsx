@@ -66,7 +66,7 @@ const EmailAnalysis = () => {
       field: "actions",
       headerName: "Actions",
       flex: 2,
-      sortable: false,
+      sortable: true,
       filterable: false,
       renderCell: (params) => (
         <div className="ActionsCol">
@@ -94,7 +94,7 @@ const EmailAnalysis = () => {
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="Email Analysis" subtitle="List of Analyzed Emails" />
-        <Box>
+        {/* <Box>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -107,7 +107,7 @@ const EmailAnalysis = () => {
             <TuneIcon sx={{ mr: "10px" }} />
             Filters
           </Button>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         m="40px 0 0 0"

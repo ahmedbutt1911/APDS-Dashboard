@@ -9,8 +9,13 @@ body,
   width: 100%;
   font-family: "Source Sans 3", sans-serif;
 }
+.content {
+  overflow: auto;
+  /* overflow-x: auto; */
+}
 body {
   height: 100vh;
+  overflow: hidden;
 }
 
 .app {
