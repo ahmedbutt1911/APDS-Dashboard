@@ -17,7 +17,12 @@ const HtmlPreview = ({ html }) => {
   return (
     <iframe
       ref={iframeRef}
-      style={{ width: "100%", border: "none", minHeight: "300px" }}
+      style={{
+        width: "100%",
+        border: "none",
+        minHeight: "300px",
+        background: "white",
+      }}
       sandbox="allow-same-origin"
     />
   );
