@@ -1,38 +1,48 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
-import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Box, Button, Typography, Avatar, useTheme } from "@mui/material";
 import Header from "../../components/Header";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { tokens } from "../../theme";
+import { useAuthStore } from "../../stores/AuthStore";
+import axios from "axios";
+import config from "../../config";
+import { useNavigate } from "react-router-dom";
+import { googleLogout } from "@react-oauth/google";
+import { logoutExtension } from "../../services/extensionService";
 
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
-};
+const UserSettings = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
 
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+  const handleDelete = () => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          `${config.backendUrl}/auth/delete-user`,
+          {}, // POST body (empty if not needed)
+          {
+            headers: {
+              Authorization: `Bearer ${user?.access_token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-const userSchema = yup.object().shape({
-  firstName: yup.string().required("First Name is required"),
-  lastName: yup.string().required("Last Name is required"),
-  email: yup.string().email("Invalid Email").required("Email is required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("Address is required"),
-  address2: yup.string().required("Address is required"),
-});
-
-const Form = () => {
-  const isMobile = useMediaQuery("(min-width: 600px)");
-
-  const handleFormSubmit = (values) => {
-    console.log(values);
+        if (response) {
+          googleLogout();
+          logout();
+          logoutExtension();
+          navigate("/auth/login");
+        } else {
+          alert("Something went wrong. Please try again");
+        }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        alert("Unauthorized or session expired");
+      }
+    };
+    fetchData();
   };
 
   return (
@@ -41,121 +51,55 @@ const Form = () => {
         title="User Settings"
         subtitle="You can change your profile settings here."
       />
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={userSchema}
+
+      <Box
+        mt="40px"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap="20px"
+        p="30px"
+        backgroundColor={colors.primary[400]}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <Box
-              display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4,minmax(0,1fr))"
-              sx={{
-                "& > div": { gridColumn: isMobile ? undefined : "span 4" },
-              }}
-            >
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="First Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
-                sx={{ gridColumn: "span 2" }}
-              />
+        <Avatar
+          alt={user.name}
+          src={user.picture}
+          sx={{ width: 175, height: 175, mb: 1 }}
+        />
+        <Typography variant="h2" color={colors.grey[100]}>
+          {user.name}
+        </Typography>
 
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Last Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-                sx={{ gridColumn: "span 2" }}
-              />
+        <Typography
+          color={colors.grey[300]}
+          fontSize="16px"
+          textAlign="center"
+          maxWidth="400px"
+        >
+          Are you sure you want to delete your profile?
+          <br />
+          This action is permanent and cannot be undone.
+        </Typography>
 
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 4" }}
-              />
-
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Contact Number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
-              />
-
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
-
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
-            </Box>
-            <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" variant="contained" color="secondary">
-                Create New User
-              </Button>
-            </Box>
-          </form>
-        )}
-      </Formik>
+        <Button
+          variant="contained"
+          color="error"
+          startIcon={<DeleteIcon />}
+          onClick={handleDelete}
+          sx={{
+            mt: 2,
+            padding: "8px 20px",
+            fontSize: "14px",
+            fontWeight: 600,
+            borderRadius: "0",
+            textTransform: "none",
+          }}
+        >
+          Delete Profile
+        </Button>
+      </Box>
     </Box>
   );
 };
-export default Form;
+
+export default UserSettings;
