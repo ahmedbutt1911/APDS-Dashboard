@@ -1,5 +1,7 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import html2canvas from "html2canvas";
 import { tokens } from "../../theme";
+import { useRef } from "react";
 import { mockEmails } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmailIcon from "@mui/icons-material/Email";
@@ -24,6 +26,7 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState("");
+  const chartRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +45,15 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  const handleDownload = () => {
+    if (!chartRef.current) return;
+    html2canvas(chartRef.current).then((canvas) => {
+      const link = document.createElement("a");
+      link.download = "line-chart.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  };
   return (
     data && (
       <Box m="20px">
@@ -274,14 +286,14 @@ const Dashboard = () => {
                 </Typography>
               </Box>
               <Box>
-                <IconButton>
+                <IconButton onClick={handleDownload}>
                   <DownloadOutlinedIcon
                     sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
                   />
                 </IconButton>
               </Box>
             </Box>
-            <Box height="250px" m="-20px 0 0 0">
+            <Box height="250px" m="-20px 0 0 0" ref={chartRef}>
               <LineChart isDashboard={true} lineData={data?.line_chart} />
             </Box>
           </Box>
