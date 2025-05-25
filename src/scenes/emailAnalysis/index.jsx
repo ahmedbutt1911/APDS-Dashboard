@@ -40,7 +40,7 @@ const EmailAnalysis = () => {
 
   const columns = [
     {
-      field: "id",
+      field: "sid",
       headerName: "ID",
     },
     {
