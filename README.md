@@ -18,7 +18,8 @@ npm -v
 
 # 2 Need to get Code of Dashboard, to clone the repository use the below command
 ```
-git clone -b dev https://github.com/Hamza123Khan/Assessment.git
+git clone -b dev https://github.com/ahmedbutt1911/APDS-Dashboard.git
+cd APDS
 ```
 
 # 3 Need to install all the packages related to dashboard application
